@@ -1,0 +1,92 @@
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>List of Theatres</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/admin/home">Home</a></li>
+            <li class="breadcrumb-item active"><a href="/logout">LogOut</a></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </section>
+  <!-- Main content -->
+  <section class="content">
+    <div class="card">
+      <div class="card-header">
+        <a href="/theatre" class="btn btn-sm btn-primary">Add New Theatre</a>
+        <div class="card-tools">
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="collapse"
+            title="Collapse"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+          <button
+            type="button"
+            class="btn btn-tool"
+            data-card-widget="remove"
+            title="Remove"
+          >
+            <i class="fas fa-times"></i>
+          </button>
+        </div>
+      </div>
+      <% items.forEach((item)=>{%>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-12 col-md-12 col-lg-12 order-2 order-md-1">
+            <div class="row">
+              <div class="col-12 col-sm-4">
+                <!-- Move the image column here -->
+                <% if (item.image) { %> <% const imageFormat =
+                item.image.split(';')[0].split('/')[1]; %>
+                <img
+                  src="data:image/<%= imageFormat %>;base64,<%= item.image %>"
+                  alt="Encoded Image"
+                  width="200vh"
+                  height="200vh"
+                />
+                <% } else { %>
+                <p>png, jpg, and webp are only supported.</p>
+                <% } %>
+              </div>
+              <div class="col-sm-8">
+                <h5><%- item.title %></h5>
+                <p><%- item.description %></p>
+                <div class="row">
+                  <div class="col-sm-6">
+                    <p><%- item.length %></p>
+                    <p><%- item.timeStart %></p>
+                    <p><%- item.ticketPrice %></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-md-12 col-lg-4 order-1 order-md-2">
+          <div class="card-header">
+            <a
+              href="/deletetheatre/<%= item._id %>"
+              class="btn btn-sm btn-danger"
+              >Delete Moive</a
+            >
+            <a href="/theatreedit/<%= item._id %>" class="btn btn-sm btn-info"
+              >Edit Movie</a
+            >
+          </div>
+        </div>
+      </div>
+      <%})%>
+    </div>
+  </section>
+</div>
