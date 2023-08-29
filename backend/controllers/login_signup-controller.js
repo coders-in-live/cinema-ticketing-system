@@ -64,9 +64,7 @@ async function createUser(req, res, next) {
   const image = req.file;
   const hashedPassword = await hashPassword(password);
   if (!req.file) {
-    console.log(
-      `Image can not be empty only PNG, JPG and WebP image files are supported`
-    );
+    image = null;
   }
   if (!hashedPassword) return console.log("Error hashingPassword");
   const { error } = await registerValidator.validate({
@@ -149,4 +147,4 @@ async function deleteUser(req, res, next) {
     console.log(error);
   }
 }
-module.exports = { createUser, updateUser, deleteUser, logIn, logOut};
+module.exports = { createUser, updateUser, deleteUser, logIn, logOut };

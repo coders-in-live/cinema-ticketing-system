@@ -11,7 +11,7 @@ const cinemaSchema = new mongoose.Schema(
     genre: [{ type: String }],
     avaliableAt: { type: String },
     // dateTimeShowing: { type: Date, default: new Date() },
-    ticketPrice: { type: String, required: true },
+    ticketPrice: { type: Number, required: true },
   },
   { timestamps: true }
 );

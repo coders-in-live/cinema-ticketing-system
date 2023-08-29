@@ -8,7 +8,7 @@ const theatreSchema = new mongoose.Schema(
     length: { type: String, required: true },
     timeStart: { type: String, required: true },
     // dateTimeShowing: { type: Date, default: new Date() },
-    ticketPrice: { type: String, required: true },
+    ticketPrice: { type: Number, required: true },
   },
   { timestamps: true }
 );

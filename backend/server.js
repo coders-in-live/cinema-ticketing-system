@@ -13,9 +13,7 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static("uploads"));
 app.use(adminRouter);
-app.get("/", (req, res) => {
-  res.send("Hello World!");
-});
+
 
 mongoose
   .connect(process.env.DB_URL)
