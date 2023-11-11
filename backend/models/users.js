@@ -13,7 +13,6 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       match: /^\S+@\S+\.\S+$/,
-      trim: true,
     },
     phone:{
       type:String,
@@ -22,10 +21,6 @@ const userSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-    },
-    image: {
-      type: String,
-      default: null,
     },
   },
   {

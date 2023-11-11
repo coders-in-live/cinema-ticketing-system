@@ -7,21 +7,9 @@ const registerValidator = joi.object({
   email: joi.string().email().required(),
   phone: joi.string().required(),
   password: joi.string().min(6).required(),
-  image: joi
-    .object({
-      filename: joi.string().required(),
-      mimetype: joi
-        .string()
-        .valid("image/jpeg", "image/png", "image/webp")
-        .required(),
-      size: joi
-        .number()
-        .max(1024 * 1024)
-        .required(),
-    })
-    .required(),
 });
-
+const { generateToken } = require("../helpers/generateToken");
+const sendVerificationEmail = require("../utils/sendVerficationEmail");
 async function logOut(req, res, next) {
   try {
     res.clearCookie("jwt");
@@ -61,25 +49,17 @@ async function logIn(req, res, next) {
 
 async function createUser(req, res, next) {
   const { name, email, phone, password } = req.body;
-  const image = req.file;
   const hashedPassword = await hashPassword(password);
-  if (!req.file) {
-    image = null;
-  }
+
   if (!hashedPassword) return console.log("Error hashingPassword");
-  const { error } = await registerValidator.validate({
-    name: req.body.title,
+  const { error } = registerValidator.validate({
+    name: req.body.name,
     email: req.body.email,
     phone: req.body.phone,
     password: req.body.password,
-    image: {
-      filename: req.file.filename,
-      mimetype: req.file.mimetype,
-      size: req.file.size,
-    },
   });
   if (error) {
-    console.log("error is here");
+    console.log(error);
     return;
   }
   try {
@@ -87,16 +67,9 @@ async function createUser(req, res, next) {
       name,
       email,
       phone,
-      image,
       password: hashPassword,
     });
-    if (req.file) {
-      const { originalname, path } = req.file;
-      const imageData = await fs.promises.readFile(path);
-      const encodedImage = imageData.toString("base64");
-      client.image = encodedImage;
-      await fs.promises.unlink(path);
-    }
+    sendVerificationEmail(user);
     await user.save();
     if (!user) return res.status(500).json(error.details[0].message);
     const token = await generateToken({ id: user._id });
@@ -108,7 +81,7 @@ async function createUser(req, res, next) {
     });
     console.log("user added succesfully");
   } catch (error) {
-    return console.log(error);
+    return console.log("error");
   }
 }
 async function updateUser(req, res, next) {

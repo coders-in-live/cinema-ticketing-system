@@ -1,6 +1,7 @@
 const joi = require("@hapi/joi");
 const fs = require("fs");
 const Cinema = require("../models/cinema");
+const sendVerificationEmail = require("../utils/sendVerficationEmail");
 
 const cinemaValidotor = joi.object({
   title: joi.string().required(),
@@ -80,6 +81,7 @@ async function CinemaPost(req, res, next) {
       client.image = encodedImage;
       await fs.promises.unlink(path);
     }
+   
     await client.save();
     res.redirect("/cinemalist");
   } catch (error) {
