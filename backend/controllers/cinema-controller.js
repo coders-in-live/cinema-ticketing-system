@@ -35,6 +35,12 @@ async function Cinema_Frontend(req, res, next) {
     res.status(500).send(err);
   }
 }
+async function getCinemaById(req, res, next) {
+  const { id } = req.params
+  const cinema = await Cinema.findById(id)
+  if (!cinema) return next({ status: 404, errors: ['moive does not exist'] })
+  res.status(200).json(cinema)
+}
 async function CinemaRender(req, res, next) {
   res.render("cinema/cinemapost");
 }
@@ -160,4 +166,5 @@ module.exports = {
   UpdatedCinema,
   CinemaEdit,
   DeleteCinema,
+  getCinemaById
 };

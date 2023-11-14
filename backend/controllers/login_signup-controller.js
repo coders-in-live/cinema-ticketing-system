@@ -1,6 +1,6 @@
 const joi = require("joi");
 const bcrypt = require("bcryptjs");
-const User = require("../models/users");
+const User = require("../models/User");
 const { hashPassword } = require("../helpers/hashPassword");
 const registerValidator = joi.object({
   name: joi.string().min(3).max(30).required(),
@@ -8,7 +8,7 @@ const registerValidator = joi.object({
   phone: joi.string().required(),
   password: joi.string().min(6).required(),
 });
-const { generateToken } = require("../helpers/generateToken");
+const  generateToken  = require("../helpers/generateToken");
 const sendVerificationEmail = require("../utils/sendVerficationEmail");
 async function logOut(req, res, next) {
   try {
@@ -32,7 +32,6 @@ async function logIn(req, res, next) {
   account.password = undefined;
   try {
     const token = await generateToken({
-      email: account.email,
       id: account._id,
     });
     res.cookie("jwt", token, {
@@ -41,7 +40,8 @@ async function logIn(req, res, next) {
       sameSite: "strict",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
-    console.log(token);
+    res.json({ token });
+    console.log("LOGGEDIN")
   } catch (error) {
     console.log(error);
   }
@@ -67,9 +67,10 @@ async function createUser(req, res, next) {
       name,
       email,
       phone,
-      password: hashPassword,
+      password: hashedPassword,
     });
     sendVerificationEmail(user);
+    // console.log(user)
     await user.save();
     if (!user) return res.status(500).json(error.details[0].message);
     const token = await generateToken({ id: user._id });
@@ -79,9 +80,10 @@ async function createUser(req, res, next) {
       secure: false,
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
+    res.send("user added succesfully")
     console.log("user added succesfully");
   } catch (error) {
-    return console.log("error");
+     console.log(error);
   }
 }
 async function updateUser(req, res, next) {

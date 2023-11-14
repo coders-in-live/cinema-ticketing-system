@@ -1,2 +1,2 @@
-export * from './auth'
-export * from './payment'
+export * from '../components/auth'
+export * from '../components/payment'

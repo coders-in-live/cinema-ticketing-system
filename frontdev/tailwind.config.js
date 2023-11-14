@@ -106,11 +106,11 @@ module.exports = {
         },
     },
     plugins: [require('daisyui')],
-    daisyui: {
-      themes: {
-        ...require('tailwindcss/defaultTheme'),
-      },
-      styled: true,
-      base: true,
-    },
+    // daisyui: {
+    //   themes: {
+    //     ...require('tailwindcss/defaultTheme'),
+    //   },
+    //   styled: true,
+    //   base: true,
+    // },
 }

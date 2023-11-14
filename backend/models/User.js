@@ -11,8 +11,10 @@ const userSchema = new mongoose.Schema(
     email: {
       type: String,
       required: true,
+      index:true,
+      spares:true,
       unique: true,
-      match: /^\S+@\S+\.\S+$/,
+      // match: /^\S+@\S+\.\S+$/,
     },
     phone:{
       type:String,
@@ -28,5 +30,5 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const User = mongoose.model("Users", userSchema);
+const User = mongoose.model("User", userSchema);
 module.exports = User;

@@ -15,6 +15,7 @@ const {
   UpdatedCinema,
   DeleteCinema,
   Cinema_Frontend,
+  getCinemaById
 } = require("../controllers/cinema-controller.js");
 const {
   TheatreRender,
@@ -24,8 +25,10 @@ const {
   UpdatedTheatre,
   DeleteTheatre,
   Theatre_Frontend,
+  getTheatreById
 } = require("../controllers/theatre-controller.js");
 const Dashboard = require("../controllers/dashboard-controller");
+const {createOrder} = require("../controllers/payment-controller.js")
 const router = express.Router();
 
 //dashboard
@@ -45,6 +48,7 @@ router.get("/cinemaedit/:id", CinemaEdit);
 router.post("/cinemaedit/:id", upload.single("image"), UpdatedCinema);
 router.get("/deletecinema/:id", DeleteCinema);
 router.get("/cinemafront",Cinema_Frontend);
+router.get("/cinemabyid/:id",getCinemaById)
 
 //theatre CRUD operation
 router.get("/theatre", TheatreRender);
@@ -54,5 +58,8 @@ router.get("/theatreedit/:id", TheatreEdit);
 router.post("/theatreedit/:id", upload.single("image"), UpdatedTheatre);
 router.get("/deletetheatre/:id", DeleteTheatre);
 router.get("/theatrefront", Theatre_Frontend)
+router.get("theatrebyid",getTheatreById)
 
+
+router.post("/buyticket",createOrder)
 module.exports = router;

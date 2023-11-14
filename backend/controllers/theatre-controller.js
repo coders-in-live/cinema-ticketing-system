@@ -32,6 +32,12 @@ async function Theatre_Frontend(req, res, next) {
     res.status(500).send(err);
   }
 }
+async function getTheatreById(req, res, next) {
+  const { id } = req.params
+  const cinema = await Cinema.findById(id)
+  if (!cinema) return next({ status: 404, errors: ['moive does not exist'] })
+  res.status(200).json(cinema)
+}
 async function TheatreRender(req, res, next) {
   res.render("theatre/theatrepost");
 }
@@ -148,4 +154,5 @@ module.exports = {
   UpdatedTheatre,
   TheatreEdit,
   DeleteTheatre,
+  getTheatreById
 };

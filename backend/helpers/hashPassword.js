@@ -5,4 +5,4 @@ async function hashPassword(password) {
   const hashedPassword = await bcrypt.hash(password, hash);
   return hashedPassword;
 }
-module.exports = { hashPassword };
+module.exports =  {hashPassword} ;
